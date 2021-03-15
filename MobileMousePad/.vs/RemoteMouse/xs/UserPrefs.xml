@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{6647E414-5630-952D-1C96-BDA0D0811B76}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/src/view/MousePointer.cs">
+    <Files>
+      <File FileName="Assets/src/view/MousePad.cs" Line="61" Column="4" />
+      <File FileName="Assets/src/remote/InputType.cs" />
+      <File FileName="Assets/src/remote/Input.cs" />
+      <File FileName="Assets/src/view/MousePointer.cs" Line="5" Column="18" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RemoteMouse" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="src" expanded="True">
+                <Node name="remote" expanded="True" />
+                <Node name="view" expanded="True">
+                  <Node name="MousePointer.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="92f6c220-5780-4231-89a2-18732ba8a18e" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

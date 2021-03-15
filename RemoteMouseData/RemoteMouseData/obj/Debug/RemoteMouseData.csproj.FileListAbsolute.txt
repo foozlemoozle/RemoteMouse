@@ -1,0 +1,6 @@
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/bin/Debug/RemoteMouseData.dll
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/bin/Debug/RemoteMouseData.pdb
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/obj/Debug/RemoteMouseData.csprojAssemblyReference.cache
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/obj/Debug/RemoteMouseData.csproj.CoreCompileInputs.cache
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/obj/Debug/RemoteMouseData.dll
+/Users/kirkegeorge/git/RemoteMouse/RemoteMouseData/RemoteMouseData/obj/Debug/RemoteMouseData.pdb
