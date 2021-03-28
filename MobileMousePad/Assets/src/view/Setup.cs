@@ -15,11 +15,29 @@ namespace com.keg.mobilemousepad
         public static event System.Action onConnect;
 
         public string IPAddress => _ipAddressField.text;
-        public int Port => int.Parse( _portField.text );
+        public int Port => _portField.text != null ? int.Parse( _portField.text ) : 0;
 
         [SerializeField] private InputField _ipAddressField;
         [SerializeField] private InputField _portField;
         [SerializeField] private Button _connectButton;
+        [SerializeField] private Text _localIPAddressText;
+
+		private void Awake()
+		{
+            //set defaults
+            _ipAddressField.text = "192.168.2.225";
+            _portField.text = "30";
+		}
+
+		public void DisplayLocalIP(string localIpAddress)
+		{
+            if(_localIPAddressText == null)
+			{
+                return;
+			}
+
+            _localIPAddressText.text = localIpAddress;
+		}
 
         public void ConnectProxy()
 		{

@@ -23,11 +23,16 @@ namespace com.keg.mobilemousepad
         // Start is called before the first frame update
         private void Start()
         {
-            _instance = this;
+            Debug.LogError( com.keg.remotemousedata.Input.Get( remotemousedata.InputType.LTAP ).ToString() );
+
+
+			_instance = this;
             _remoteManager = new RemoteManager();
 
             _mousePad.gameObject.SetActive( false );
             _setup.gameObject.SetActive( true );
+
+            _setup.DisplayLocalIP( _remoteManager.LocalIPAddress );
 
             Setup.onConnect += OnConnect;
         }

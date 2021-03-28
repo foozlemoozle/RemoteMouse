@@ -15,6 +15,7 @@ using Debug = UnityEngine.Debug;
 
 namespace com.keg.mobilemousepad
 {
+    // fe80::6c7b:a6c4:eadf:2e50%18
     public class RemoteManager
     {
         private static readonly int RETRIES = 10;
@@ -27,10 +28,20 @@ namespace com.keg.mobilemousepad
         private int _port;
         private TcpClient _tcpClient;
 
-        private int _retryCount = 0;
         private System.Action _onConnectionFailed;
 
         private System.Action _onConnectionSuccess;
+
+        public string LocalIPAddress => _localIPAddress;
+
+        private IPEndPoint _targetEndPoint;
+        private NetworkStream _writeStream;
+
+        public RemoteManager()
+		{
+            _hostName = Dns.GetHostName();
+            _localIPAddress = Dns.GetHostAddresses( _hostName )[ 0 ].ToString();
+        }
 
         public void Setup(string remoteIpString, int port, System.Action onConnectionSuccess, System.Action onConnectionFailed)
 		{
@@ -39,70 +50,82 @@ namespace com.keg.mobilemousepad
             _onConnectionSuccess = onConnectionSuccess;
             _port = port;
 
-            _hostName = Dns.GetHostName();
-            _localIPAddress = Dns.GetHostAddresses( _hostName )[ 0 ].ToString();
-
             _remoteIPAddress = remoteIpString;
 
             Debug.Log( $"[RemoteManager] Host Name: {_hostName} Local IP: {_localIPAddress}" );
 
-            _tcpClient = new TcpClient( AddressFamily.InterNetwork );
-            Connect();
-        }
+			if( SetupTCPClient() )
+			{
+				ConnectAsync();
+			}
+		}
 
-        private void Connect()
+        private bool SetupTCPClient()
 		{
             try
             {
                 IPAddress remoteIp = IPAddress.Parse( _remoteIPAddress );
-                Task tcpConnectionTask = _tcpClient.ConnectAsync( remoteIp, _port );
-                AwaitTCPConnection( tcpConnectionTask );
+                _targetEndPoint = new IPEndPoint( remoteIp, _port );
+                _tcpClient = new TcpClient( remoteIp.AddressFamily );
+
+                return true;
             }
             catch( System.FormatException err )
             {
                 Debug.LogError( $"Invalid IP Address format; {err}" );
                 _onConnectionFailed?.Invoke();
             }
+            catch( System.NotSupportedException err )
+            {
+                Debug.LogError( $"IPAddress {_remoteIPAddress} is not supported\n{err}" );
+                _onConnectionFailed?.Invoke();
+            }
+
+            return false;
         }
 
-        private async void AwaitTCPConnection( Task connectionTask )
+        private async void ConnectAsync()
 		{
-            Debug.Log( $"[RemoteManager] awaiting connection with {_remoteIPAddress}..." );
+            Task task = Task.Run(ConnectInternal);
+            await task;
+
+            if( task.Exception != null )
+            {
+                _onConnectionFailed?.Invoke();
+            }
+			else
+            {
+                _onConnectionSuccess?.Invoke();
+            }
+        }
+
+        private void ConnectInternal()
+		{
+            System.Exception abstractedError = null;
 
             try
             {
-                await connectionTask;
+                _tcpClient.Connect( _targetEndPoint );
+                return;
             }
-            catch(SocketException err)
-			{
-                connectionTask.Dispose();
+            catch( System.FormatException err )
+            {
+                Debug.LogError( $"Invalid IP Address format; {err}" );
+                abstractedError = err;
+            }
+            catch( System.NotSupportedException err )
+            {
+                Debug.LogError( $"IPAddress {_remoteIPAddress} is not supported\n{err}" );
+                abstractedError = err;
+            }
+            catch( SocketException err )
+            {
+                Debug.LogError( $"Socket Exception; {err}" );
+                abstractedError = err;
+            }
 
-                Debug.LogError( $"Connection refused; {err}" );
-                _onConnectionFailed?.Invoke();
-                return;
-			}
-
-            if(connectionTask.Status != TaskStatus.RanToCompletion)
-			{
-                Debug.LogError( $"[RemoteManager] Failed to connect!  Retries: {_retryCount}" );
-                if(_retryCount < RETRIES)
-				{
-                    ++_retryCount;
-                    Connect();
-				}
-                else
-				{
-                    _onConnectionFailed?.Invoke();
-				}
-
-                return;
-			}
-
-            Debug.Log( "[RemoteManager] <color=green>Success!</color>" );
-
-            Ready = true;
-            _onConnectionSuccess?.Invoke();
-		}
+            throw abstractedError;
+        }
 
         public void SendInput(Input input)
 		{
@@ -111,7 +134,7 @@ namespace com.keg.mobilemousepad
                 return;
 			}
 
-            _tcpClient.Client.Send( input.Serialize() );
+			_tcpClient.Client.Send( input.Serialize() );
 		}
 
         public void Shutdown()

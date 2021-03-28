@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{71E473E7-44BD-94FC-3E30-6603C01B7A11}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/src/view/Setup.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/src/view/MousePad.cs">
     <Files>
-      <File FileName="Assets/src/view/MousePad.cs" Line="4" Column="15" />
-      <File FileName="Assets/src/view/MousePointer.cs" Line="4" Column="15" />
-      <File FileName="Assets/src/remote/RemoteManager.cs" Line="4" Column="15" />
-      <File FileName="Assets/src/controller/Bootstrap.cs" Line="1" Column="1" />
-      <File FileName="Assets/src/view/Setup.cs" Line="4" Column="15" />
-      <File FileName="Assets/src/model/Vector2Converter.cs" Line="4" Column="15" />
+      <File FileName="Assets/src/view/MousePad.cs" Line="113" Column="4" />
+      <File FileName="Assets/src/view/MousePointer.cs" />
+      <File FileName="Assets/src/remote/RemoteManager.cs" />
+      <File FileName="Assets/src/controller/Bootstrap.cs" />
+      <File FileName="Assets/src/view/Setup.cs" />
+      <File FileName="Assets/src/model/Vector2Converter.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,7 +18,7 @@
                 <Node name="model" expanded="True" />
                 <Node name="remote" expanded="True" />
                 <Node name="view" expanded="True">
-                  <Node name="Setup.cs" selected="True" />
+                  <Node name="MousePad.cs" selected="True" />
                 </Node>
               </Node>
             </Node>
@@ -29,7 +29,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="03144b64-03db-4600-930c-826d1a2a2e5e" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="c3d681c1-0aff-47b4-96fb-96fc9f0d7533" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

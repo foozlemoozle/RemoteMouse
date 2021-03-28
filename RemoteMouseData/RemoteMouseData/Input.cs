@@ -39,38 +39,48 @@ namespace com.keg.remotemousedata
         {
             using( MemoryStream stream = new MemoryStream( raw ) )
             {
-                using( BinaryReader reader = new BinaryReader( stream ) )
-                {
-                    InputType inputType = (InputType)reader.ReadInt32();
-                    float dx;
-                    float dy;
+                return Get( stream );
+            }
+        }
 
-                    switch( inputType )
-                    {
-                    case InputType.NONE: throw new System.NotImplementedException();
-                    case InputType.LTAP:
-                        return new LeftClick();
-                    case InputType.RTAP:
-                        return new RightClick();
-                    case InputType.MTAP:
-                        return new MiddleClick();
-                    case InputType.MOVE:
-                    case InputType.SCRL:
-                    default:
-                        dx = reader.ReadSingle();
-                        dy = reader.ReadSingle();
-                        break;
-                    }
+        public static Input Get(Stream stream)
+		{
+            using( BinaryReader reader = new BinaryReader( stream ) )
+            {
+                return Get( reader );
+            }
+        }
 
-                    switch( inputType )
-                    {
-                    case InputType.MOVE:
-                        return new MouseMove( dx, dy );
-                    case InputType.SCRL:
-                    default:
-                        return new ScrollMove( dx, dy );
-                    }
-                }
+        public static Input Get(BinaryReader reader)
+		{
+            InputType inputType = (InputType)reader.ReadInt32();
+            float dx;
+            float dy;
+
+            switch( inputType )
+            {
+            case InputType.NONE: throw new System.NotImplementedException();
+            case InputType.LTAP:
+                return new LeftClick();
+            case InputType.RTAP:
+                return new RightClick();
+            case InputType.MTAP:
+                return new MiddleClick();
+            case InputType.MOVE:
+            case InputType.SCRL:
+            default:
+                dx = reader.ReadSingle();
+                dy = reader.ReadSingle();
+                break;
+            }
+
+            switch( inputType )
+            {
+            case InputType.MOVE:
+                return new MouseMove( dx, dy );
+            case InputType.SCRL:
+            default:
+                return new ScrollMove( dx, dy );
             }
         }
 
@@ -85,7 +95,8 @@ namespace com.keg.remotemousedata
 
         public sealed override string ToString()
         {
-            return $"Type: {InputType} {ToStringAdd}";
+            byte[] bytes = Serialize();
+            return $"Type: {InputType.ToString()} {ToStringAdd} byteSize: {bytes.Length}";
         }
 
         public byte[] Serialize()
