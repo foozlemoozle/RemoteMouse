@@ -134,7 +134,9 @@ namespace com.keg.mobilemousepad
                 return;
 			}
 
-			_tcpClient.Client.Send( input.Serialize() );
+            byte[] buffer = input.Serialize();
+            _tcpClient.GetStream().Write( buffer, 0, buffer.Length );
+			//_tcpClient.Client.Send( input.Serialize() );
 		}
 
         public void Shutdown()
